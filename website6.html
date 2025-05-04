@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Voting System</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Header with Flag and Title */
+        header {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        header img {
+            width: 50px;  /* India Flag Size */
+            height: auto;
+        }
+
+        h2 {
+            font-size: 2.5em;
+            text-decoration: underline; /* Underline the title */
+            margin-top: 60px; /* Space from top */
+        }
+
+        /* Container Styles */
+        .container {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .hidden { display: none; }
+
+        /* Input Styles */
+        input[type="text"], input[type="password"], input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Responsive Styling */
+        @media screen and (max-width: 600px) {
+            h2 {
+                font-size: 1.8em;
+            }
+            body {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Header with India Flag -->
+    <header>
+        <img src="https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg" alt="India Flag">
+        <h2>Online Voting System</h2>
+        <div></div> <!-- Space on the right for symmetry -->
+    </header>
+
+    <!-- Login Page -->
+    <div id="loginPage" class="container">
+        <h3>Login</h3>
+        <input type="text" id="voterId" placeholder="Enter Voter ID" required><br>
+        <input type="password" id="password" placeholder="Enter Password" required><br>
+        <button onclick="login()">Login</button>
+        <p><a href="#" onclick="showForgotPassword()">Forgot Password?</a></p>
+    </div>
+    
+    <!-- Forgot Password Page -->
+    <div id="forgotPasswordPage" class="container hidden">
+        <h3>Reset Password</h3>
+        <input type="email" id="email" placeholder="Enter Your Email" required><br>
+        <button onclick="verifyEmail()">Verify Email</button>
+    </div>
+    
+    <!-- Voting Page -->
+    <div id="votingPage" class="container hidden">
+        <h3>Cast Your Vote</h3>
+        <p>Voter ID: <span id="displayVoterId"></span></p>
+        <input type="radio" name="party" value="Sneha">Sneha<br>
+        <input type="radio" name="party" value="Simoni">Simoni<br>
+        <input type="radio" name="party" value="Shruti">Shruti<br>
+
+        <button onclick="submitVote()">Submit Vote</button>
+    </div>
+    
+    <!-- Thank You Page -->
+    <div id="thankYouPage" class="container hidden">
+        <h3>Thank You for Voting!</h3>
+        <p>Your vote has been successfully recorded.</p>
+    </div>
+
+    <script>
+        function login() {
+            let voterId = document.getElementById("voterId").value;
+            let password = document.getElementById("password").value;
+            if (voterId && password) {
+                document.getElementById("loginPage").classList.add("hidden");
+                document.getElementById("votingPage").classList.remove("hidden");
+                document.getElementById("displayVoterId").innerText = voterId;
+            } else {
+                alert("Please enter valid credentials");
+            }
+        }
+        function showForgotPassword() {
+            document.getElementById("loginPage").classList.add("hidden");
+            document.getElementById("forgotPasswordPage").classList.remove("hidden");
+        }
+        function verifyEmail() {
+            let email = document.getElementById("email").value;
+            if (email) {
+                alert("Password reset link sent to " + email);
+                document.getElementById("forgotPasswordPage").classList.add("hidden");
+                document.getElementById("loginPage").classList.remove("hidden");
+            } else {
+                alert("Please enter a valid email address");
+            }
+        }
+        function submitVote() {
+            let selectedParty = document.querySelector('input[name="party"]:checked');
+            if (selectedParty) {
+                document.getElementById("votingPage").classList.add("hidden");
+                document.getElementById("thankYouPage").classList.remove("hidden");
+            } else {
+                alert("Please select a party before submitting");
+            }
+        }
+    </script>
+</body>
+</html>
